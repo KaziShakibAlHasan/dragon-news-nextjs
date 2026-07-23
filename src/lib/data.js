@@ -10,3 +10,8 @@ export async function getCategories() {
   const data = await res.json();
   return data.data;
 }
+export async function getNewsDetailsById(new_id) {
+  const res = await fetch(`https://openapi.programming-hero.com/api/news/${new_id}`);
+  const data = await res.json();
+  return data.data[0];
+}

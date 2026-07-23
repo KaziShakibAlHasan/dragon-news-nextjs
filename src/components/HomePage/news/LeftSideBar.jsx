@@ -6,8 +6,7 @@ const LeftSideBar = ({categories, activeId}) => {
         <div>
             <div >
                 <div className="font-bold text-lg ">
-
-                    All catehoris
+                   All catehoris
                 </div>
                 <ul className="flex flex-col gap-3 mt-4 ">
                     {
