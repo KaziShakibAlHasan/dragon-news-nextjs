@@ -1,4 +1,6 @@
 'use client'
+import { authClient } from '@/lib/auth-client';
+
 import { ClientSegmentRoot } from 'next/dist/client/components/client-segment';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -11,12 +13,25 @@ const RegistarPage = () => {
     formState: { errors },
   } = useForm()
 
-    const handleRegsitarFuc = (data) => {
+    const handleRegsitarFuc = async (data) => {
         // e.preventDefault();
         // const email = e.target.email.value;
         // const password = e.target.password.value;4
         // console.log(email, password, 'email and passwrod')
-        console.log(data);
+        const { name, email, password}= data;
+        const {data:res, error} = await authClient.signUp.email({
+            name:name,
+            email:email,
+            password: password,
+            callbackURL: '/'
+        })
+        if(error){
+            alert(error.server)
+        }
+        else{
+            alert('Successful')
+        }
+        console.log(res , error)
     }
     return (
         <div className='w-11/12 mx-auto flex justify-center items-center min-h-[80vh] bg-slate-200'>
@@ -25,14 +40,14 @@ const RegistarPage = () => {
                 <form  onSubmit={handleSubmit(handleRegsitarFuc)} className='space-y-4 '>
                      <fieldset className="fieldset">
                         <legend className="fieldset-legend">Name</legend>
-                        <input  {...register("name", { required: true })} type="email"  className="input" placeholder="Enter Your Name" />
+                        <input  {...register("name", { required: true })} type="text"  className="input" placeholder="Enter Your Name" />
                     </fieldset>
                      <fieldset className="fieldset">
                         <legend className="fieldset-legend">Photo URL</legend>
-                        <input  {...register("email", { required: true })} type="text"  className="input" placeholder="Enter Your photo url" />
+                        <input  {...register("text", { required: true })} type="text"  className="input" placeholder="Enter Your photo url" />
                     </fieldset>
                     <fieldset className="fieldset">
-                        <legend className="fieldset-legend">Enter address</legend>
+                        <legend className="fieldset-legend">Enter Email address</legend>
                         <input  {...register("email", { required: true })} type="email"  className="input" placeholder="Enter Your email address" />
                     </fieldset>
                     <fieldset className="fieldset">
@@ -41,7 +56,6 @@ const RegistarPage = () => {
                     </fieldset>
                     <button className="btn w-full bg-slate-800 text-white">Login</button>
                 </form>
-                <p className='mt-3 text-sm'>Don't have an account?<Link className='text-blue-600' href={"/login"}>Register</Link></p>
             </div>
 
         </div>
